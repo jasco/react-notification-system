@@ -69,18 +69,22 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
-    modulesDirectories: ['node_modules', 'src']
+    extensions: ['', '.js', '.jsx']
   },
+  modules: [
+    path.join(__dirname, 'src'),
+    'node_modules'
+  ],
   module: {
-    loaders: [
+    rules: [
       {
         test: JS_REGEX,
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel?presets=airbnb'
+        loader: 'babel-loader',
+        options: { presets: ['airbnb'] }
       }
     ]
   }

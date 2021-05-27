@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 var webpack = require('webpack');
+var path = require('path');
 
 var coverage;
 var reporters;
@@ -23,25 +24,28 @@ module.exports = function (config) {
   config.set({
     browsers: ['Firefox'],
     browserNoActivityTimeout: 30000,
-    frameworks: ['mocha', 'chai', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'sinon-chai', 'webpack'],
     files: ['tests.webpack.js'],
     preprocessors: {'tests.webpack.js': ['webpack', 'sourcemap']},
     reporters: reporters,
     coverageReporter: coverage,
     webpack: {
+      mode: 'none',
       devtool: 'inline-source-map',
       module: {
-        loaders: [
+        rules: [
           // TODO: fix sourcemaps
           // see: https://github.com/deepsweet/isparta-loader/issues/1
           {
             test: /\.js$|.jsx$/,
-            loader: 'babel?presets=airbnb',
+            loader: 'babel-loader',
+            options: { presets: ['airbnb'] },
             exclude: /node_modules/
           },
           {
             test: /\.js$|.jsx$/,
-            loader: 'isparta?{babel: {stage: 0}}',
+            loader: 'isparta-loader',
+            options: { babel: 'es2015' },
             exclude: /node_modules|test|utils/
           }
         ]
@@ -56,7 +60,10 @@ module.exports = function (config) {
       ],
       resolve: {
         extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['node_modules', 'src']
+        modules: [
+          path.join(__dirname, 'src'),
+          'node_modules'
+        ]
       }
     },
     webpackServer: {

@@ -57,18 +57,22 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.sass'],
-    modulesDirectories: ['node_modules', 'src']
+    extensions: ['', '.js', '.jsx', '.sass']
   },
+  modules: [
+    path.join(__dirname, 'src'),
+    'node_modules'
+  ],
   module: {
-    loaders: [
+    rules: [
       {
         test: JS_REGEX,
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel?presets=airbnb'
+        loader: 'babel-loader',
+        options: { presets: ['airbnb'] }
       },
       {
         test: /\.sass$/,
