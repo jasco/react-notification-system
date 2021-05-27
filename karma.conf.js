@@ -24,9 +24,21 @@ module.exports = function (config) {
   config.set({
     browsers: ['Firefox'],
     browserNoActivityTimeout: 30000,
-    frameworks: ['mocha', 'chai', 'sinon-chai'],
-    files: ['tests.webpack.js'],
-    preprocessors: {'tests.webpack.js': ['webpack', 'sourcemap']},
+    frameworks: ['mocha', 'chai', 'sinon-chai', 'webpack'],
+    plugins: [
+      'karma-firefox-launcher',
+      'karma-webpack',
+      'karma-mocha',
+      'karma-chai-plugins',
+      'karma-sourcemap-loader',
+      'karma-coverage',
+      'karma-coveralls'
+    ],
+    files: [
+        // Use webpacks watch in pref to karma watched
+        { pattern: 'test/**/*.test.js', watch: false }
+    ],
+    preprocessors: {'test/**/*.test.js': ['webpack', 'sourcemap']},
     reporters: reporters,
     coverageReporter: coverage,
     webpack: {
