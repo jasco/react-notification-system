@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var PropTypes = require('prop-types');
 var merge = require('object-assign');
@@ -126,7 +128,6 @@ class NotificationSystem extends React.Component {
     var notifications = this.state.notifications;
     var i;
 
-
     if (!_notification.level) {
       throw new Error('notification level is required.');
     }
@@ -155,7 +156,6 @@ class NotificationSystem extends React.Component {
     _notification.ref = 'notification-' + _notification.uid;
     this.uid += 1;
 
-
     // do not add if the notification already exists based on supplied uid
     for (i = 0; i < notifications.length; i += 1) {
       if (notifications[i].uid === _notification.uid) {
@@ -168,7 +168,6 @@ class NotificationSystem extends React.Component {
     } else {
       notifications.push(_notification);
     }
-
 
     if (typeof _notification.onAdd === 'function') {
       notification.onAdd(_notification);

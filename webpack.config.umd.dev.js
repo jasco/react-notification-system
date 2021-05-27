@@ -1,9 +1,12 @@
+'use strict';
+
 var path = require('path');
 var webpack = require('webpack');
 
 var JS_REGEX = /\.js$|\.jsx$|\.es6$|\.babel$/;
 
 module.exports = {
+  mode: 'development',
   entry: [
     './src/NotificationSystem.jsx'
   ],
@@ -11,7 +14,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'react-notification-system.js',
     libraryTarget: 'umd',
-    library: "ReactNotificationSystem"
+    library: 'ReactNotificationSystem'
   },
   externals: [
     {
@@ -32,15 +35,15 @@ module.exports = {
     }
   ],
   plugins: [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'src')
+    ]
   },
-  modules: [
-    path.join(__dirname, 'src'),
-    'node_modules'
-  ],
   module: {
     rules: [
       {

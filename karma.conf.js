@@ -24,7 +24,7 @@ module.exports = function (config) {
   config.set({
     browsers: ['Firefox'],
     browserNoActivityTimeout: 30000,
-    frameworks: ['mocha', 'chai', 'sinon-chai', 'webpack'],
+    frameworks: ['mocha', 'chai', 'sinon-chai'],
     files: ['tests.webpack.js'],
     preprocessors: {'tests.webpack.js': ['webpack', 'sourcemap']},
     reporters: reporters,
@@ -61,8 +61,8 @@ module.exports = function (config) {
       resolve: {
         extensions: ['', '.js', '.jsx'],
         modules: [
-          path.join(__dirname, 'src'),
-          'node_modules'
+          'node_modules',
+          path.join(__dirname, 'src')
         ]
       }
     },

@@ -1,3 +1,5 @@
+'use strict';
+
 var Helpers = {
   Timer: function(callback, delay) {
     var timerId;

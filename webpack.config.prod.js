@@ -1,6 +1,9 @@
+'use strict';
+
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var TerserPlugin = require('terser-webpack-plugin');
 
 var JS_REGEX = /\.js$|\.jsx$|\.es6$|\.babel$/;
 
@@ -11,6 +14,7 @@ var sassLoaders = [
 ];
 
 module.exports = {
+  mode: 'production',
   entry: [
     './example/src/scripts/App'
   ],
@@ -18,6 +22,13 @@ module.exports = {
     path: path.join(__dirname, 'example/build'),
     filename: 'app.js',
     publicPath: '../build/'
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true
+      })
+    ]
   },
   plugins: [
     new ExtractTextPlugin('app.css', { allChunks: true }),
@@ -27,42 +38,15 @@ module.exports = {
         BROWSER: JSON.stringify(true),
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-
-    // optimizations
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        sequences: true,
-        dead_code: true,
-        drop_debugger: true,
-        comparisons: true,
-        conditionals: true,
-        evaluate: true,
-        booleans: true,
-        loops: true,
-        unused: true,
-        hoist_funs: true,
-        if_return: true,
-        join_vars: true,
-        cascade: true,
-        drop_console: false
-      },
-      output: {
-        comments: false
-      }
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.sass']
+    extensions: ['', '.js', '.jsx', '.sass'],
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'src')
+    ]
   },
-  modules: [
-    path.join(__dirname, 'src'),
-    'node_modules'
-  ],
   module: {
     rules: [
       {

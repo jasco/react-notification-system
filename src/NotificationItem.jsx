@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var PropTypes = require('prop-types');
 var ReactDOM = require('react-dom');
@@ -217,9 +219,9 @@ class NotificationItem extends React.Component {
   _handleNotificationClick() {
     var dismissible = this.props.notification.dismissible;
     if (
-      dismissible === 'both' ||
-      dismissible === 'click' ||
-      dismissible === true
+      dismissible === 'both'
+      || dismissible === 'click'
+      || dismissible === true
     ) {
       this._dismiss();
     }
@@ -311,9 +313,9 @@ class NotificationItem extends React.Component {
     }
 
     if (
-      notification.dismissible === 'both' ||
-      notification.dismissible === 'button' ||
-      notification.dismissible === true
+      notification.dismissible === 'both'
+      || notification.dismissible === 'button'
+      || notification.dismissible === true
     ) {
       dismiss = (
         <span

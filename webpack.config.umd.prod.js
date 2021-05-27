@@ -1,9 +1,13 @@
+'use strict';
+
 var path = require('path');
 var webpack = require('webpack');
+var TerserPlugin = require('terser-webpack-plugin');
 
 var JS_REGEX = /\.js$|\.jsx$|\.es6$|\.babel$/;
 
 module.exports = {
+  mode: 'production',
   entry: [
     './src/NotificationSystem.jsx'
   ],
@@ -11,7 +15,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'react-notification-system.min.js',
     libraryTarget: 'umd',
-    library: "ReactNotificationSystem"
+    library: 'ReactNotificationSystem'
   },
   devtool: 'source-map',
   externals: [
@@ -32,6 +36,14 @@ module.exports = {
       }
     }
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true
+      })
+    ]
+  },
   plugins: [
     // set env
     new webpack.DefinePlugin({
@@ -39,42 +51,15 @@ module.exports = {
         BROWSER: JSON.stringify(true),
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-
-    // optimizations
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        sequences: true,
-        dead_code: true,
-        drop_debugger: true,
-        comparisons: true,
-        conditionals: true,
-        evaluate: true,
-        booleans: true,
-        loops: true,
-        unused: true,
-        hoist_funs: true,
-        if_return: true,
-        join_vars: true,
-        cascade: true,
-        drop_console: false
-      },
-      output: {
-        comments: false
-      }
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'src')
+    ]
   },
-  modules: [
-    path.join(__dirname, 'src'),
-    'node_modules'
-  ],
   module: {
     rules: [
       {
