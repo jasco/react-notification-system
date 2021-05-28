@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": "airbnb/legacy",
   "env": {
     "browser": true,

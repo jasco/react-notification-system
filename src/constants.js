@@ -1,3 +1,5 @@
+'use strict';
+
 var CONSTANTS = {
 
   // Positions
@@ -29,6 +31,5 @@ var CONSTANTS = {
     action: null
   }
 };
-
 
 module.exports = CONSTANTS;

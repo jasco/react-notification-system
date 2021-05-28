@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var PropTypes = require('prop-types');
 var NotificationItem = require('./NotificationItem');
@@ -10,9 +12,9 @@ class NotificationContainer extends React.Component {
     this._style = props.getStyles.container(props.position);
 
     if (
-      props.getStyles.overrideWidth &&
-      (props.position === Constants.positions.tc ||
-        props.position === Constants.positions.bc)
+      props.getStyles.overrideWidth
+      && (props.position === Constants.positions.tc
+          || props.position === Constants.positions.bc)
     ) {
       this._style.marginLeft = -(props.getStyles.overrideWidth / 2);
     }

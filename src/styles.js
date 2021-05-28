@@ -1,3 +1,5 @@
+'use strict';
+
 // Used for calculations
 var defaultWidth = 320;
 var defaultColors = {
