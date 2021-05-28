@@ -10,14 +10,14 @@ if (process.env.CONTINUOUS_INTEGRATION) {
     type: 'lcov',
     dir: 'coverage/'
   };
-  reporters = ['coverage', 'coveralls'];
+  reporters = ['coverage', 'coveralls', 'istanbul'];
 }
 else {
   coverage = {
     type: 'html',
     dir: 'coverage/'
   };
-  reporters = ['progress', 'coverage'];
+  reporters = ['progress', 'coverage', 'istanbul'];
 }
 
 module.exports = function (config) {
@@ -32,15 +32,26 @@ module.exports = function (config) {
       'karma-chai-plugins',
       'karma-sourcemap-loader',
       'karma-coverage',
-      'karma-coveralls'
+      'karma-coveralls',
+      'karma-istanbuljs-reporter'
     ],
     files: [
+        //'tests.webpack.js'
         // Use webpacks watch in pref to karma watched
         { pattern: 'test/**/*.test.js', watch: false }
     ],
-    preprocessors: {'test/**/*.test.js': ['webpack', 'sourcemap']},
+    preprocessors: {
+      'test/**/*.test.js': ['webpack', 'sourcemap']
+    },
+    //preprocessors: {'tests.webpack.js': ['webpack', 'sourcemap']},
     reporters: reporters,
     coverageReporter: coverage,
+    istanbulReporter: {
+      reporters: [
+        { type: 'html', subdir: 'coverage/' },
+        { type: 'lcov', subdir: 'coverage/' }
+      ]
+    },
     webpack: {
       mode: 'none',
       devtool: 'inline-source-map',
@@ -51,14 +62,11 @@ module.exports = function (config) {
           {
             test: /\.js$|.jsx$/,
             loader: 'babel-loader',
-            options: { presets: ['airbnb'] },
+            options: {
+              presets: ['airbnb'],
+              sourceType: 'unambiguous'
+            },
             exclude: /node_modules/
-          },
-          {
-            test: /\.js$|.jsx$/,
-            loader: 'isparta-loader',
-            options: { babel: 'es2015' },
-            exclude: /node_modules|test|utils/
           }
         ]
       },
